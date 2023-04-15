@@ -180,7 +180,7 @@ const SingleProduct = () => {
                   <p className="product-data">
                     Free shipping and returns available on all orders! <br /> We
                     ship all US domestic orders within
-                    <b>5-10 business days!</b>
+                    <b> 5-10 business days!</b>
                   </p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-3">
@@ -323,6 +323,7 @@ const SingleProduct = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                style={{ marginTop: "0.5rem" }}
               ></button>
             </div>
             <div className="modal-body py-0">

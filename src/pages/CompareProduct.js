@@ -15,12 +15,12 @@ const CompareProduct = () => {
           <div className="col-3">
             <div className="compare-product-card position-relative">
               <img
-                src={watch}
+                src="images/cross.svg"
                 alt="cross"
                 className="position-absolute cross img-fluid"
               />
               <div className="product-card-image">
-                <img src="images/watch.jpg" alt="watch" />
+                <img src={watch} alt="watch" />
               </div>
               <div className="compare-product-details">
                 <h5 className="title">
