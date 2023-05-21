@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import BlogCard from "../components/BlogCard";
@@ -6,8 +6,27 @@ import ProductCard from "../components/ProductCard";
 import SpecialProduct from "../components/SpecialProduct";
 import Container from "../components/Container";
 // import { services } from "../utils/Data";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { getAllBlogs } from "./../features/blogs/blogSlice";
 
 const Home = () => {
+  const blogState = useSelector((state) => state?.blog?.blog);
+
+  const productState = useSelector((state) => state.product.product);
+  console.log(productState);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getblogs();
+  }, []);
+
+  const getblogs = () => {
+    dispatch(getAllBlogs());
+  };
+
+  const getProducts = () => {
+    dispatch(getProducts());
+  };
   return (
     <>
       <Container class1="home-wrapper-1 py-5">
@@ -292,10 +311,19 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <SpecialProduct />
-          <SpecialProduct />
-          <SpecialProduct />
-          <SpecialProduct />
+          {productState &&
+            productState?.map((item, index) => {
+              if (item.tags === "special") {
+                return (
+                  <SpecialProduct
+                    key={index}
+                    title={item?.title}
+                    brand={item?.brand}
+                    totalrating={item?.totalrating.toString()}
+                  />
+                );
+              }
+            })}
         </div>
       </Container>
       <Container class1="popular-wrapper py-5 home-wrapper-2">
@@ -353,18 +381,24 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-3">
-            <BlogCard />
-          </div>
-          <div className="col-3">
-            <BlogCard />
-          </div>
-          <div className="col-3">
-            <BlogCard />
-          </div>
-          <div className="col-3">
-            <BlogCard />
-          </div>
+          {blogState &&
+            blogState?.map((item, index) => {
+              if (index < 3) {
+                return (
+                  <div className="col-3" key={index}>
+                    <BlogCard
+                      id={item?._id}
+                      title={item?.title}
+                      description={item?.description}
+                      image={item?.images[0].url}
+                      date={moment(item?.createdAt).format(
+                        "MMMM Do YYYY, h:mm a"
+                      )}
+                    />
+                  </div>
+                );
+              }
+            })}
         </div>
       </Container>
     </>

@@ -1,7 +1,8 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
-const SpecialProduct = () => {
+const SpecialProduct = (props) => {
+  const { title, brand, totalrating } = props;
   return (
     <>
       <div className="col-6 mb-3">
@@ -11,10 +12,8 @@ const SpecialProduct = () => {
               <img src="images/watch.jpg" className="img-fluid" alt="watch" />
             </div>
             <div className="special-product-content">
-              <h5 className="brand">Havels</h5>
-              <h6 className="title">
-                Samsung Galaxy Note10+ Mobile Phone; Sim...
-              </h6>
+              <h5 className="brand">{brand}</h5>
+              <h6 className="title">{title}</h6>
               <ReactStars
                 count={5}
                 size={24}

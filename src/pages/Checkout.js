@@ -11,7 +11,7 @@ const Checkout = () => {
         <div className="row">
           <div className="col-7">
             <div className="checkout-left-data">
-              <h3 className="website-name">Dev Corner</h3>
+              <h3 className="website-name">Zipp-Shipp</h3>
               <nav
                 style={{ "--bs-breadcrumb-divider": ">" }}
                 aria-label="breadcrumb"
@@ -44,7 +44,7 @@ const Checkout = () => {
               </nav>
               <h4 className="title total">Contact Information</h4>
               <p className="user-details total">
-                Navdeep Dahiya (monud0232@gmail.com)
+                Gurmeet Singh (gurmeetsingh6175@gmail.com)
               </p>
               <h4 className="mb-3">Shipping Address</h4>
               <form
@@ -147,16 +147,16 @@ const Checkout = () => {
             <div className="border-bottom py-4">
               <div className="d-flex justify-content-between align-items-center">
                 <p className="total">Subtotal</p>
-                <p className="total-price">$ 10000</p>
+                <p className="total-price">$ 100</p>
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <p className="mb-0 total">Shipping</p>
-                <p className="mb-0 total-price">$ 10000</p>
+                <p className="mb-0 total-price">$ 20</p>
               </div>
             </div>
             <div className="d-flex justify-content-between align-items-center border-bootom py-4">
               <h4 className="total">Total</h4>
-              <h5 className="total-price">$ 10000</h5>
+              <h5 className="total-price">$ 120</h5>
             </div>
           </div>
         </div>
