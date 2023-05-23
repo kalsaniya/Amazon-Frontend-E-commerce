@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import BlogCard from "../components/BlogCard";
 import ProductCard from "../components/ProductCard";
@@ -9,6 +9,16 @@ import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getAllBlogs } from "./../features/blogs/blogSlice";
+import { getAllProducts } from "../features/products/productSlice";
+
+import ReactStars from "react-rating-stars-component";
+
+import prodcompare from "../images/prodcompare.svg";
+import wish from "../images/wish.svg";
+import watch2 from "../images/watch-2.jpg";
+import addcart from "../images/add-cart.svg";
+import view from "../images/view.svg";
+import { addToWishlist } from "../features/products/productSlice";
 
 const Home = () => {
   const blogState = useSelector((state) => state?.blog?.blog);
@@ -16,16 +26,21 @@ const Home = () => {
   const productState = useSelector((state) => state.product.product);
   console.log(productState);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     getblogs();
+    getallProducts();
   }, []);
 
   const getblogs = () => {
     dispatch(getAllBlogs());
   };
 
-  const getProducts = () => {
-    dispatch(getProducts());
+  const getallProducts = () => {
+    dispatch(getAllProducts());
+  };
+  const addToWish = (id) => {
+    dispatch(addToWishlist(id));
   };
   return (
     <>
@@ -227,15 +242,86 @@ const Home = () => {
           </div>
         </div>
       </Container>
+
+      {/* Featured Collection */}
       <Container class1="featured-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
             <h3 className="section-heading">Featured Collection</h3>
           </div>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {productState &&
+            productState?.map((item, index) => {
+              if (item.tags === "featured") {
+                return (
+                  <div key={index} className={"col-3"}>
+                    <div className="product-card position-relative">
+                      <div className="wishlist-icon position-absolute">
+                        <button className="border-0 bg-transparent">
+                          <img
+                            onClick={(e) => {
+                              addToWish(item?._id);
+                            }}
+                            src={wish}
+                            alt="wishlist"
+                          />
+                        </button>
+                      </div>
+                      <div className="product-image">
+                        <img
+                          src={item?.images[0].url}
+                          className="img-fluid mx-auto"
+                          alt="product image"
+                          width={160}
+                        />
+                        <img
+                          src={watch2}
+                          className="img-fluid  mx-auto"
+                          alt="product image"
+                          width={160}
+                        />
+                      </div>
+                      <div className="product-details">
+                        <h6 className="brand">{item?.brand}</h6>
+                        <h5 className="product-title">{item?.title}</h5>
+                        <ReactStars
+                          count={5}
+                          size={24}
+                          value={item?.totalrating.toString()}
+                          edit={false}
+                          activeColor="#ffd700"
+                        />
+                        {/* <p
+                          className={`description ${
+                            grid === 12 ? "d-block" : "d-none"
+                          }`}
+                          dangerouslySetInnerHTML={{
+                            __html: item?.description,
+                          }}
+                        ></p> */}
+                        <p className="price">$ {item?.price}</p>
+                      </div>
+                      <div className="action-bar position-absolute">
+                        <div className="d-flex flex-column gap-15">
+                          <button className="border-0 bg-transparent">
+                            <img src={prodcompare} alt="compare" />
+                          </button>
+                          <button className="border-0 bg-transparent">
+                            <img
+                              onClick={() => navigate("/product/" + item?._id)}
+                              src={view}
+                              alt="view"
+                            />
+                          </button>
+                          <button className="border-0 bg-transparent">
+                            <img src={addcart} alt="addcart" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
         </div>
       </Container>
 
@@ -304,6 +390,7 @@ const Home = () => {
         </div>
       </Container>
 
+      {/* Special Products */}
       <Container class1="special-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
@@ -317,15 +404,21 @@ const Home = () => {
                 return (
                   <SpecialProduct
                     key={index}
+                    id={item?._id}
                     title={item?.title}
                     brand={item?.brand}
                     totalrating={item?.totalrating.toString()}
+                    price={item?.price}
+                    sold={item?.sold}
+                    quantity={item?.quantity}
                   />
                 );
               }
             })}
         </div>
       </Container>
+
+      {/* Popular Products */}
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
@@ -333,12 +426,83 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {productState &&
+            productState?.map((item, index) => {
+              if (item.tags === "popular") {
+                return (
+                  <div key={index} className={"col-3"}>
+                    <div className="product-card position-relative">
+                      <div className="wishlist-icon position-absolute">
+                        <button className="border-0 bg-transparent">
+                          <img
+                            onClick={(e) => {
+                              addToWish(item?._id);
+                            }}
+                            src={wish}
+                            alt="wishlist"
+                          />
+                        </button>
+                      </div>
+                      <div className="product-image">
+                        <img
+                          src={item?.images[0].url}
+                          className="img-fluid mx-auto"
+                          alt="product image"
+                          width={160}
+                        />
+                        <img
+                          src={watch2}
+                          className="img-fluid  mx-auto"
+                          alt="product image"
+                          width={160}
+                        />
+                      </div>
+                      <div className="product-details">
+                        <h6 className="brand">{item?.brand}</h6>
+                        <h5 className="product-title">{item?.title}</h5>
+                        <ReactStars
+                          count={5}
+                          size={24}
+                          value={item?.totalrating.toString()}
+                          edit={false}
+                          activeColor="#ffd700"
+                        />
+                        {/* <p
+                          className={`description ${
+                            grid === 12 ? "d-block" : "d-none"
+                          }`}
+                          dangerouslySetInnerHTML={{
+                            __html: item?.description,
+                          }}
+                        ></p> */}
+                        <p className="price">$ {item?.price}</p>
+                      </div>
+                      <div className="action-bar position-absolute">
+                        <div className="d-flex flex-column gap-15">
+                          <button className="border-0 bg-transparent">
+                            <img src={prodcompare} alt="compare" />
+                          </button>
+                          <button className="border-0 bg-transparent">
+                            <img
+                              onClick={() => navigate("/product/" + item?._id)}
+                              src={view}
+                              alt="view"
+                            />
+                          </button>
+                          <button className="border-0 bg-transparent">
+                            <img src={addcart} alt="addcart" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
         </div>
       </Container>
+
+      {/* Running Carousel */}
       <Container class1="marque-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
@@ -374,6 +538,7 @@ const Home = () => {
         </div>
       </Container>
 
+      {/* Blogs */}
       <Container class1="blog-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
